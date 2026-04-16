@@ -1,206 +1,183 @@
-# PFLICHTENHEFT: Wissensdatenbank & Routinen-Management-System
+# PFLICHTENHEFT: System- und Repository-Anforderungen für GymFlow
 
 **Status**: Aktiv  
-**Version**: 1.0  
-**Datum**: 2026-03-23  
+**Version**: 1.1  
+**Datum**: 2026-04-16  
 **Autor**: System  
-**Zuletzt aktualisiert**: 2026-03-23
+**Quelle**: `docs/handbuch/README.md`, `uploads/README.md`
 
 ---
 
 ## 1. Projektübersicht
 
-### 1.1 Zielsetzung
-Aufbau einer strukturierten, wartbaren und erweiterbaren **Wissensdatenbank**, die dem System ermöglicht:
-- **Kurzfristig**: Häufig erforderliche Routinen schnell abrufen
-- **Mittelfristig**: Neue Routinen effizient zu erlernen und zu integrieren
-- **Langfristig**: Wissensbestände systematisch auszubauen und zu optimieren
+### 1.1 Systemziel
+GymFlow ist ein modulares, wartbares und erweiterbares System für eine **Wissensdatenbank und ein Routinen-Management**, ergänzt durch eine moderne **webbasierte Applikation** mit klaren Qualitäts- und Sicherheitsstandards.
 
-### 1.2 Kernprinzipien
-- ✅ **Effizienz**: Minimale Redundanz, schneller Abruf, optimierte Struktur
-- ✅ **Wartbarkeit**: Klare Struktur, einheitliche Formate, automatisierte Kontrollen
-- ✅ **Wiederverwendbarkeit**: Module sind in mehreren Kontexten einsetzbar
-- ✅ **Erweiterbarkeit**: Einfache Integration neuer Routinen ohne Umstrukturierung
-- ✅ **Sicherheit**: Authentizität, keine veralteten Daten, Versions-Kontrolle
-- ✅ **Nachvollziehbarkeit**: Jeder Schritt dokumentiert und versionsiert
+### 1.2 Hauptziele
+- **Strukturierte Wissensbasis** für Routinen und Betriebsabläufe
+- **Effizientes Routine-Management** mit Standardformaten, Metadaten und Abhängigkeiten
+- **Modulare Architektur** zur einfachen Erweiterung und Wiederverwendung
+- **Lückenlose Dokumentation** im Repo, insbesondere unter `docs/handbuch`
+- **Produktionsfähige Plattform** mit Docker, API-Services und persistenter Datenhaltung
+
+### 1.3 Repository-Ziele
+- **DRY-Prinzip**: keine redundanten Inhalte, keine Copy-Paste
+- **Versionskontrolle**: alle Änderungen über Git
+- **Transparente Dokumentation**: klare Struktur, Referenzen, Templates
+- **Sicherheit im Repository**: keine Secrets, geschützte Upload-Bereiche, Read-only Archiv
+- **Automatisierung & Qualität**: gültige Prüfroutinen für Security, Architektur und Dokumentation
 
 ---
 
 ## 2. Funktionale Anforderungen
 
-### 2.1 Wissensdatenbank
-| Anforderung | Beschreibung | Priorität |
-|-------------|-------------|-----------|
-| KB-01 | Zentrale Ablage für alle Routinen | MUSS |
-| KB-02 | Kategorisierung (kurz-, mittel-, langfristig) | MUSS |
-| KB-03 | Volltextsuche über Routinen | SOLLTE |
-| KB-04 | Versionskontrolle aller Änderungen | MUSS |
-| KB-05 | Abhängigkeitsverwaltung zwischen Routinen | SOLLTE |
+### 2.1 Kernsystem
+| ID | Anforderung | Priorität |
+|---|-------------|----------|
+| SYS-01 | Webbasierte Anwendung mit responsivem Frontend | MUSS |
+| SYS-02 | API-Schicht für Datenzugriff | MUSS |
+| SYS-03 | Persistente Speicherung in MySQL | MUSS |
+| SYS-04 | Modulare Schichten: Frontend, API, Business Logic, Datenbank | MUSS |
+| SYS-05 | Docker-basierter Betrieb und Live-Testumgebung | MUSS |
 
-### 2.2 Routine-Management
-| Anforderung | Beschreibung | Priorität |
-|-------------|-------------|-----------|
-| RM-01 | Standardisiertes Routine-Format | MUSS |
-| RM-02 | Eindeutige Routine-Kennungen (ID) | MUSS |
-| RM-03 | Automatische Duplikat-Erkennung | SOLLTE |
-| RM-04 | Abhängigkeits-Mapping | SOLLTE |
-| RM-05 | Komplexitäts-Klassifizierung | MUSS |
+### 2.2 Wissens- und Routinenmanagement
+| ID | Anforderung | Priorität |
+|---|-------------|----------|
+| KB-01 | Zentrale Ablage aller Routinen und Wissenseinheiten | MUSS |
+| KB-02 | Kategorisierung nach kurz-, mittel- und langfristig | MUSS |
+| KB-03 | Standardisiertes Template für Routinen | MUSS |
+| KB-04 | Eindeutige Routine-IDs und Versionshistorie | MUSS |
+| KB-05 | Volltextsuche und Navigation | SOLLTE |
+| KB-06 | Abhängigkeits- und Komplexitäts-Mapping | SOLLTE |
+| KB-07 | Duplikat-Erkennung und Qualitätsprüfung | SOLLTE |
 
-### 2.3 Entwicklungs-Tracking
-| Anforderung | Beschreibung | Priorität |
-|-------------|-------------|-----------|
-| DT-01 | Entwicklungs-Roadmap mit Meilensteinen | MUSS |
-| DT-02 | Zeitmessungen pro Phase | SOLLTE |
-| DT-03 | Umfangsanalyse (Scope) | MUSS |
-| DT-04 | Machbarkeitsanalysen für neue Features | MUSS |
-| DT-05 | Lessons Learned dokumentieren | SOLLTE |
+### 2.3 Dokumentation und Entwicklung
+| ID | Anforderung | Priorität |
+|---|-------------|----------|
+| DOC-01 | Vollständige Dokumentation im `docs/handbuch` Verzeichnis | MUSS |
+| DOC-02 | Leitfäden, Templates und Setup-Anleitungen bereitstellen | MUSS |
+| DOC-03 | Regelmäßige Aktualisierung mit Versionshinweis | MUSS |
+| DOC-04 | Troubleshooting- und Use-Case-Beispiele | SOLLTE |
+| DOC-05 | Roadmap und Meilensteine nachverfolgbar machen | MUSS |
 
-### 2.4 Dokumentation
-| Anforderung | Beschreibung | Priorität |
-|-------------|-------------|-----------|
-| DOC-01 | Klare und verständliche Anleitungen | MUSS |
-| DOC-02 | Regelmäßige Aktualisierung | MUSS |
-| DOC-03 | Beispiele und Use-Cases | SOLLTE |
-| DOC-04 | Troubleshooting-Guide | SOLLTE |
+### 2.4 Repository-Workflow
+| ID | Anforderung | Priorität |
+|---|-------------|----------|
+| REP-01 | Alle Änderungen über Git-Branches und Pull Requests | MUSS |
+| REP-02 | Klare Commit Messages und Review-Prozess | MUSS |
+| REP-03 | Keine Secrets oder sensiblen Daten im Repo | MUSS |
+| REP-04 | Dokumentengestützte Richtlinien für Reviews und Merge | SOLLTE |
+| REP-05 | Geschützter Upload-/Legacy-Bereich mit Analyse-Workflow | SOLLTE |
 
 ---
 
 ## 3. Nicht-funktionale Anforderungen
 
-### 3.1 Performance
-- Suche in Routinen: **< 100ms**
-- Laden einer Routine: **< 50ms**
+### 3.1 Qualität und Wartbarkeit
+- **0% Redundanz** im System und in der Dokumentation
+- **Einheitliche Konventionen** für Dateinamen, Inhalte und Struktur
+- **Modularer Aufbau**: klare Trennung von Domain, UI, Service und Daten
+- **Automatisierte Validierungen** vor Merge
 
-### 3.2 Datenqualität
-- **0% Redundanz** zulässig
-- **100% Vollständigkeit** erforderlich bei Pflichtfeldern
-- **Aktualität**: Max. 3 Monate alte Informationen
+### 3.2 Performance
+- Antwortzeit für Suche: **< 100 ms**
+- Laden einer Routine: **< 50 ms**
+- Antwortzeit API-Endpunkt: **< 200 ms**
 
 ### 3.3 Sicherheit
-- Alle Änderungen via **Git** versionskontrolliert
-- **Read-only** Archiv für abgeschlossene Routinen
-- Validierung beim Hinzufügen neuer Routinen
+- Input-Validierung und Sanitization in allen Ebenen
+- Schutz gegen SQL-Injection, XSS, CSRF
+- Sichere Authentifizierung und Autorisierung
+- Betriebssicherheit: Backups, Audit-Log, TLS/SSL
+- Read-only Archiv für abgeschlossene/alte Routinen
+
+### 3.4 Betriebsanforderungen
+- Docker Compose für lokale und Testumgebungen
+- Live-Testumgebung verfügbar und dokumentiert
+- Service-URLs und Ports dokumentiert
+- Backup- und Restore-Anweisungen vorhanden
+
+### 3.5 Testing
+- Unit-Tests für Kernlogik und APIs
+- Integrationstests für End-to-End-Flows
+- Dokumentierte Test-Routinen im Repo
+- Qualitätstests für Dokumentation und Architektur
 
 ---
 
-## 4. Verzeichnisstruktur
+## 4. Technischer Referenzrahmen
 
-```
-docs/handbuch/
-├── 00-PFLICHTENHEFT.md          (← Du bist hier)
-├── 01-ROADMAP.md                (Meilensteine & Zeitleiste)
-├── 02-ARCHITEKTUR.md            (Systemdesign & Datenmodelle)
-├── 03-GUIDELINES.md             (Best Practices)
-├── routinen/
-│   ├── KURZFRISTIG.md           (Routine-Übersicht kurz-/ad-hoc)
-│   ├── MITTELFRISTIG.md         (Regelmäßige Routinen)
-│   ├── LANGFRISTIG.md           (Strategische Routinen)
-│   └── R-[ID]-[NAME].md         (Einzelne Routine-Dateien)
-├── templates/
-│   ├── ROUTINE-TEMPLATE.md      (Vorlage für neue Routinen)
-│   ├── CHECKLISTE-VORLAGE.md    (Qualitätskontrolle)
-│   └── MACHBARKEITSANALYSE.md   (Template für Analysen)
-├── archiv/
-│   └── [DEPRECATED-ROUTINEN]    (Veraltete Routinen)
-└── README.md                    (Einstiegspunkt)
-```
+### 4.1 Technologie-Stack
+- Frontend: JavaScript / PHP / React oder gleichwertig
+- API: Python (z. B. Flask/FastAPI) oder Java-Service
+- Business Logic: Java / Python
+- Datenbank: MySQL
+- Deployment: Docker / Docker Compose
+
+### 4.2 Architekturprinzipien
+- MVC oder vergleichbare Schichtenarchitektur
+- Wiederverwendbare Komponenten und Services
+- Saubere Trennung von Präsentation, Logik und Daten
+- Versionierte Dokumentation und Templates
+
+### 4.3 Repo-Struktur
+- `src/` für Quellcode
+- `docs/handbuch/` für Anforderungen und Guides
+- `docker/` für Container-Konfigurationen
+- `scripts/` für Automatisierung
+- `uploads/` für Legacy-Analyse und sichere Einspeisung
+- `web/` für Frontend und API-Interface
 
 ---
 
-## 5. Implementierungsphasen
+## 5. Umsetzung und Phasen
 
-### Phase 1: Foundation (KW 13-14 2026)
-- [x] Verzeichnisstruktur erstellen
-- [ ] Pflichtenheft finalisieren
-- [ ] Roadmap und Meilensteine definieren
-- **Umfang**: ~40 Stunden
-- **Risiko**: Gering
+### Phase 1: Basis aufbauen
+- Struktur `docs/handbuch` fertigstellen
+- Pflichtenheft und Roadmap finalisieren
+- Templates und Guidelines bereitstellen
 
-### Phase 2: Template & Guidelines (KW 15-16 2026)
-- [ ] Routine-Template entwickeln
-- [ ] Qualitäts-Checkliste erstellen
-- [ ] Guidelines für Dokumentation
-- **Umfang**: ~30 Stunden
-- **Risiko**: Gering
+### Phase 2: Erstes System
+- Backend, API und Datenhaltung implementieren
+- Frontend-Darstellung für Routinen erzeugen
+- Such- und Filterfunktionen einrichten
 
-### Phase 3: Erste Routinen (KW 17-18 2026)
-- [ ] 3-5 Pilot-Routinen erstellen
-- [ ] Abhängigkeitsmapping üben
-- [ ] Feedback-Schleife etablieren
-- **Umfang**: ~50 Stunden
-- **Risiko**: Mittel (Lernkurve)
+### Phase 3: Qualität und Sicherheit
+- Automatisierte Prüfungen einführen
+- Sicherheits- und Performance-Checks integrieren
+- Dokumentation kontinuierlich aktualisieren
 
-### Phase 4: Optimierung & Skalierung (KW 19-20 2026)
-- [ ] Duplikat-Erkennung implementieren
-- [ ] Suche und Navigation verbessern
-- [ ] Performance-Tuning
-- **Umfang**: ~40 Stunden
-- **Risiko**: Mittel
+### Phase 4: Skalierung
+- Duplikat-/Abhängigkeitsprüfung erweitern
+- Komplexitätsstufen einführen
+- Archiv- und Read-only-Mechanismen implementieren
 
 ---
 
 ## 6. Erfolgskriterien
 
-### Technisch
-- ✅ Alle Routinen folgen dem Standard-Format
-- ✅ 0% Redundanz zwischen Routinen
-- ✅ Suchzeit < 100ms pro Query
-- ✅ 100% Git-Versionierung
+### System
+- Stabiler Betrieb im Docker-Stack
+- Verlässliche Persistenz und Suche
+- Deutliche Reduktion von Redundanz
+- Modularität und Erweiterbarkeit
 
-### Funktional
-- ✅ Mindestens 10 aktive Routinen nach Phase 3
-- ✅ Alle Abhängigkeiten dokumentiert
-- ✅ Komplexitäts-Level definiert
-
-### Organisatorisch
-- ✅ Alle Entwicklungsschritte dokumentiert
-- ✅ Meilensteine eingehalten (±1 Woche)
-- ✅ Lessons Learned pro Phase
+### Repository
+- Reproduzierbarer Workflow über Git/PRs
+- Vollständige Dokumentation ohne Lücken
+- Keine Secrets im Repo
+- Automatisierte Qualitätssicherung
 
 ---
 
-## 7. Rollen & Verantwortungen
+## 7. Revision und Änderungen
 
-| Rolle | Verantwortung |
-|-------|---------------|
-| **Knowledge Architect** | Systemdesign, Struktur, Standards |
-| **Routine Developer** | Routine-Erstellung und -Testing |
-| **Quality Assurance** | Validierung, Duplikat-Check |
-| **Documentation** | Wiki-Inhalte, User Guides |
+- Dieses Dokument fasst Anforderungen aus `docs/handbuch/README.md` und `uploads/README.md` zusammen.
+- Alle nachfolgenden Änderungen werden im `docs/handbuch`-Bereich dokumentiert.
+- Nächste Review: 2026-06-23
 
 ---
 
-## 8. Risiken & Mitigation
-
-| Risiko | Wahrscheinlichkeit | Auswirkung | Mitigation |
-|--------|------------------|-----------|-----------|
-| Zu viele Routinen → Unübersichtlich | Hoch | Mittel | Strikte Kategorisierung, regelmäßige Audits |
-| Redundante Routinen | Mittel | Hoch | Duplikat-Checker, Reviews vor Merge |
-| Veraltete Dokumentation | Hoch | Mittel | Automatische Validierung, Refreshing-Prozess |
-| Breaking Changes bei Refactoring | Mittel | Hoch | Backward Compatibility, Deprecation Guidelines |
-
----
-
-## 9. KPIs & Metriken
-
-- **Routine-Dichte**: Routinen pro Kategorie
-- **Duplikat-Rate**: % redundanter Inhalte
-- **Update-Frequenz**: Durchschnittliche Aktualität
-- **Usage-Rate**: Wie oft werden Routinen verwendet
-- **Fehlerquote**: Nicht funktionierende/veraltete Routinen
-
----
-
-## 10. Nächste Schritte
-
-1. ✅ **Pflichtenheft abzeichnen** (diese Datei)
-2. ⏳ **Roadmap detaillieren** (01-ROADMAP.md)
-3. ⏳ **Architektur-Design** (02-ARCHITEKTUR.md)
-4. ⏳ **Templates finalisieren** (templates/)
-5. ⏳ **Erste Routinen implementieren**
-
----
-
-**Gültig ab**: 2026-03-23  
+**Gültig ab**: 2026-04-16  
 **Review-Datum**: 2026-06-23  
 **Genehmigung**: [Bereit zur Implementierung]
