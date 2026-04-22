@@ -32,6 +32,7 @@ docs/handbuch/
 ├── ✅ 01-ROADMAP.md              ← Zeitleiste & Meilensteine (Q2 2026)
 ├── ✅ 02-ARCHITEKTUR.md          ← Technisches Design
 ├── ✅ 03-GUIDELINES.md           ← Best Practices & Standards
+├── ✅ 04-SETUP-ANLEITUNG.md      ← 🆕 Schnelleinstieg & Live-Tests
 ├── ✅ README.md                  ← Diese Datei
 │
 ├── 📚 routinen/

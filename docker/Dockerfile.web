@@ -1,0 +1,23 @@
+FROM php:8.2-apache-bullseye
+
+# Installiere und aktiviere mysqli Erweiterung
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    && docker-php-ext-install mysqli pdo pdo_mysql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Aktiviere Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Setze Arbeitsverzeichnis
+WORKDIR /var/www/html
+
+# Setze Berechtigungen
+RUN chown -R www-data:www-data /var/www/html
+
+# Exponiere Port 80
+EXPOSE 80
+
+# Apache im Vordergrund starten
+CMD ["apache2-foreground"]

@@ -1,0 +1,76 @@
+# GymFlow Project .gitignore
+
+# Java
+bin/
+*.class
+*.jar
+*.war
+*.ear
+.classpath
+.project
+.settings/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.docker
+
+# Daten
+data/mysql/*
+!data/mysql/.gitkeep
+data/uploads/*
+!data/uploads/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Umgebung
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+build/
+.gradle/
+target/
+
+# Cache
+.cache/
+.coverage
+htmlcov/
+
+# OS
+*.pid
+*.seed
+*.pid.lock

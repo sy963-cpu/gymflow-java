@@ -1,0 +1,18 @@
+{
+  "name": "gymflow-web",
+  "version": "1.0.0",
+  "description": "GymFlow Web Application",
+  "main": "index.php",
+  "scripts": {
+    "start": "npm install && echo 'Web assets ready'",
+    "test": "echo 'Tests would run here'",
+    "build": "echo 'Build process here'"
+  },
+  "keywords": ["fitness", "gym", "training"],
+  "author": "sy963-cpu",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

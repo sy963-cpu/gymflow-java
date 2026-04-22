@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # ============================================================
+  # MySQL Datenbank Service
+  # ============================================================
+  mysql:
+    image: mysql:8.0-debian
+    container_name: gymflow-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: gymflow_db
+      MYSQL_USER: gymflow_user
+      MYSQL_PASSWORD: gymflow_pass
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
+      TZ: 'Europe/Berlin'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - gymflow-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # ============================================================
+  # PHP/Apache Web Service
+  # ============================================================
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    container_name: gymflow-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/var/www/html
+      - ./docker/apache-config.conf:/etc/apache2/sites-enabled/000-default.conf
+    networks:
+      - gymflow-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_USER: gymflow_user
+      DB_PASSWORD: gymflow_pass
+      DB_NAME: gymflow_db
+    command: docker-php-ext-install pdo pdo_mysql mysqli
+
+  # ============================================================
+  # Python API Service
+  # ============================================================
+  python-api:
+    image: python:3.11-slim
+    container_name: gymflow-python-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./api:/app
+    working_dir: /app
+    networks:
+      - gymflow-network
+    depends_on:
+      - mysql
+    environment:
+      FLASK_APP: server.py
+      FLASK_ENV: development
+      DB_HOST: mysql
+      DB_USER: gymflow_user
+      DB_PASSWORD: gymflow_pass
+      DB_NAME: gymflow_db
+    command: >
+      bash -c "pip install flask flask-cors PyMySQL python-dotenv &&
+      python server.py"
+
+  # ============================================================
+  # Node.js Service (JavaScript/NPM)
+  # ============================================================
+  nodejs:
+    image: node:20-alpine
+    container_name: gymflow-nodejs
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+    working_dir: /app
+    networks:
+      - gymflow-network
+    environment:
+      NODE_ENV: development
+    command: npm start 2>/dev/null || echo "Optional Node.js service ready"
+
+  # ============================================================
+  # phpmyadmin - Web UI für MySQL Management
+  # ============================================================
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: gymflow-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: gymflow_user
+      PMA_PASSWORD: gymflow_pass
+      PMA_ROOT_PASSWORD: rootpassword
+    networks:
+      - gymflow-network
+    depends_on:
+      - mysql
+
+networks:
+  gymflow-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
