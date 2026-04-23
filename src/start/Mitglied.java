@@ -1,11 +1,11 @@
 package start;
 
 /**
- * Das Datenmodell für einen Athleten.
- * Implementiert Comparable für die automatische Rangliste.
+ * Das Datenmodell fï¿½r einen Athleten.
+ * Implementiert Comparable fï¿½r die automatische Rangliste.
  */
 public class Mitglied implements Comparable<Mitglied> {
-    // KAPSELUNG: Alle Felder sind private (Zugriff nur über Methoden)
+    // KAPSELUNG: Alle Felder sind private (Zugriff nur ï¿½ber Methoden)
     private String name;
     private String uebung;
     private double maxGewicht;
@@ -17,10 +17,10 @@ public class Mitglied implements Comparable<Mitglied> {
     }
 
     /**
-     * Bereitet die Daten für die JTable-Zeile vor.
+     * Bereitet die Daten fï¿½r die JTable-Zeile vor.
      */
     public Object[] toTableRow() {
-        // Name wird in Großbuchstaben umgewandelt (Design-Aspekt)
+        // Name wird in Groï¿½buchstaben umgewandelt (Design-Aspekt)
         return new Object[]{"", name.toUpperCase(), uebung, maxGewicht + " KG"};
     }
 
@@ -30,8 +30,24 @@ public class Mitglied implements Comparable<Mitglied> {
         return Double.compare(other.maxGewicht, this.maxGewicht);
     }
 
-    // Getter-Methode für den Controller
+    // Getter-Methoden fÃ¼r den Controller und JSON-Export
     public double getMaxGewicht() { 
         return maxGewicht; 
+    }
+
+    /**
+     * Gibt den Namen des Mitglieds zurÃ¼ck.
+     * @return Der Name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gibt die ausgefÃ¼hrte Ãœbung zurÃ¼ck.
+     * @return Die Ãœbung
+     */
+    public String getUebung() {
+        return uebung;
     }
 }

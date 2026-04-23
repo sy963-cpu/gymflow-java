@@ -2,28 +2,43 @@ package start;
 
 import java.util.*;
 import javax.swing.JOptionPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
- * Der Controller steuert den Datenfluss und prüft die Logik.
+ * Der Controller steuert den Datenfluss und prÃ¼ft die Logik.
+ * Verwaltet auch die JSON-Speicherung von Trainingsdaten (Erweiterung 2).
  */
 public class GymController {
     private GymWindow view;
     private List<Mitglied> liste = new ArrayList<>();
-    private PlanWindow planView; 
+    private PlanWindow planView;
 
     public GymController(GymWindow view) {
         this.view = view;
+        
+        // Daten beim Start laden
+        ladeDaten();
         
         // Event-Listener: Was passiert beim Klicken?
         view.btnAdd.addActionListener(e -> addRecord());
         view.btnOpenPlan.addActionListener(e -> openPlanWindow());
         
-        // NEU: Sicherheitsabfrage vor dem Löschen der Liste
+        // Sicherheitsabfrage vor dem Loeschen der Liste
         view.btnResetTable.addActionListener(e -> {
-            int wahl = JOptionPane.showConfirmDialog(view, "Alle Daten löschen?", "Bestätigung", JOptionPane.YES_NO_OPTION);
+            int wahl = JOptionPane.showConfirmDialog(view, "Alle Daten loeschen?", "Bestaetigung", JOptionPane.YES_NO_OPTION);
             if (wahl == JOptionPane.YES_OPTION) {
                 liste.clear();
                 updateTable();
+                speicherDaten();
+            }
+        });
+        
+        // Speichern beim Window-Close
+        view.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                speicherDaten();
             }
         });
     }
@@ -31,11 +46,11 @@ public class GymController {
     private void addRecord() {
         // Daten aus der View holen
         String name = view.tfName.getText().trim();
-        String uebung = (String) view.cbUebung.getSelectedItem(); // Wert aus Drop-Down lesen
-        String gewichtRaw = view.tfGewicht.getText().replace(",", "."); // Ersetzt Komma durch Punkt für Java-Zahlen
+        String uebung = (String) view.cbUebung.getSelectedItem();
+        String gewichtRaw = view.tfGewicht.getText().replace(",", ".");
 
         try {
-            // PRÜFUNG: Name darf nicht leer sein
+            // PRUEFUNG: Name darf nicht leer sein
             if (name.isEmpty()) {
                 throw new Exception("Bitte einen Namen eingeben!");
             }
@@ -43,26 +58,28 @@ public class GymController {
             // Umwandlung Text -> Zahl
             double gewicht = Double.parseDouble(gewichtRaw);
 
-            // LOGIK-PRÜFUNG (Wichtig für die Bewertung): 
-            // Verhindert unrealistische Eingaben (0kg oder über 600kg)
+            // LOGIK-PRUEFUNG: Verhindert unrealistische Eingaben
             if (gewicht <= 0 || gewicht > 600) {
                 throw new Exception("Gewicht muss zwischen 1 und 600 kg liegen!");
             }
 
             // Alles OK: Neues Mitglied erstellen und sortieren
             liste.add(new Mitglied(name, uebung, gewicht));
-            Collections.sort(liste); // Nutzt die compareTo-Logik aus Mitglied.java
+            Collections.sort(liste);
             updateTable();
             
-            // Felder für neue Eingabe leeren
+            // Felder fuer neue Eingabe leeren
             view.tfName.setText("");
             view.tfGewicht.setText("");
             
+            // Daten speichern
+            speicherDaten();
+            
         } catch (NumberFormatException ex) {
             // Fehler wenn Text statt Zahl eingegeben wurde
-            JOptionPane.showMessageDialog(view, "Fehler: Bitte eine gültige Zahl im Gewicht-Feld eingeben!");
+            JOptionPane.showMessageDialog(view, "Fehler: Bitte eine gueltige Zahl im Gewicht-Feld eingeben!");
         } catch (Exception ex) {
-            // Alle anderen Fehlermeldungen (z.B. Logik-Prüfung)
+            // Alle anderen Fehlermeldungen
             JOptionPane.showMessageDialog(view, ex.getMessage());
         }
     }
@@ -71,12 +88,12 @@ public class GymController {
      * Aktualisiert die Anzeige in der Tabelle
      */
     private void updateTable() {
-        view.model.setRowCount(0); // Tabelle leeren
+        view.model.setRowCount(0);
         double max = 0;
         for (int i = 0; i < liste.size(); i++) {
             Mitglied m = liste.get(i);
             Object[] row = m.toTableRow();
-            row[0] = (i + 1) + "."; // Rangnummer hinzufügen
+            row[0] = (i + 1) + ".";
             view.model.addRow(row);
             
             // Den globalen Rekord ermitteln
@@ -88,5 +105,27 @@ public class GymController {
     private void openPlanWindow() {
         if (planView == null) planView = new PlanWindow();
         planView.setVisible(true);
+    }
+
+    /**
+     * Laedt gespeicherte Trainingsdaten aus der JSON-Datei (Erweiterung 2).
+     */
+    private void ladeDaten() {
+        liste = GymDataManager.loadMitgliederFromJson();
+        if (!liste.isEmpty()) {
+            Collections.sort(liste);
+            updateTable();
+        }
+    }
+
+    /**
+     * Speichert die aktuellen Trainingsdaten als JSON (Erweiterung 2).
+     */
+    private void speicherDaten() {
+        if (GymDataManager.saveMitgliederToJson(liste)) {
+            System.out.println("Daten gespeichert in: " + GymDataManager.getDataFileName());
+        } else {
+            System.err.println("Fehler beim Speichern der Daten!");
+        }
     }
 }
