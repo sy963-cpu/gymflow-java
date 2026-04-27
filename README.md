@@ -195,6 +195,10 @@ javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 java -cp bin start.Main
 ```
 
+**Visible GUI in Codespaces:**
+- Öffne `http://localhost:6080/vnc.html`
+- Die Java Swing-Demo läuft im virtuellen Display des `gymflow-vnc` Containers.
+
 ---
 
 ## 🔧 Konfiguration

@@ -9,7 +9,8 @@
 
 set -e
 
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 # Farben für Output
@@ -135,12 +136,8 @@ echo -e "  ${GREEN}✓${NC} Python API      : ${BLUE}http://localhost:5000${NC}"
 echo ""
 echo -e "  ${GREEN}✓${NC} Node.js         : ${BLUE}http://localhost:3000${NC}"
 echo ""
-echo -e "  ${GREEN}✓${NC} phpMyAdmin      : ${BLUE}http://localhost:8081${NC}"
-echo ""
-
-# Java Desktop App
-echo -e "${YELLOW}Java Desktop Application:${NC}"
-echo -e "  Starten: ${BLUE}java -cp bin start.Main${NC}"
+ echo -e "  ${GREEN}✓${NC} GUI Bridge      : ${BLUE}http://localhost:6080/vnc.html${NC}"
+ echo ""
 echo ""
 
 # ============================================================

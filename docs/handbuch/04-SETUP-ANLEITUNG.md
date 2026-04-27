@@ -380,6 +380,28 @@ java -cp bin start.Main
 - Realtime Gewicht-Sortierung
 - Fehlerbehandlung & Validierung
 
+### ✅ Sichtbare GUI in Codespaces (noVNC)
+
+Die Java Desktop App kann direkt im Browser angezeigt werden, indem sie in einem virtuellen Display (`Xvfb`) ausgeführt wird.
+
+Schritte:
+1. Starte die Umgebung mit:
+   ```bash
+   bash scripts/start.sh
+   ```
+2. Öffne im Browser die Codespaces-Portweiterleitung auf:
+   ```text
+   http://localhost:6080/vnc.html
+   ```
+3. Die Swing-Anwendung startet automatisch auf dem virtuellen Display.
+4. Prüfe den noVNC-Endpunkt optional mit:
+   ```bash
+   curl -I http://localhost:6080/vnc.html
+   ```
+   Erwartetes Ergebnis: `HTTP/1.1 200 OK`
+
+> Hinweis: Der `gymflow-vnc` Service wird beim Start von `scripts/start.sh` automatisch hochgefahren.
+
 ---
 
 ## Häufige Fehler & Lösungen

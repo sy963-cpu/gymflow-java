@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # ============================================================
   # MySQL Datenbank Service
@@ -95,6 +93,29 @@ services:
     environment:
       NODE_ENV: development
     command: npm start 2>/dev/null || echo "Optional Node.js service ready"
+
+  # ============================================================
+  # GUI Bridge mit Xvfb und noVNC
+  # ============================================================
+  vnc:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.vnc
+    container_name: gymflow-vnc
+    ports:
+      - "6080:6080"
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    networks:
+      - gymflow-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DISPLAY: ":99"
+    tty: true
+    restart: unless-stopped
 
   # ============================================================
   # phpmyadmin - Web UI für MySQL Management

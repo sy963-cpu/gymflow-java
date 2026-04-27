@@ -1,0 +1,23 @@
+FROM eclipse-temurin:21-jdk
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xvfb \
+    x11vnc \
+    fluxbox \
+    git \
+    python3-websockify \
+    wget \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 https://github.com/novnc/noVNC.git /opt/noVNC \
+ && git clone --depth 1 https://github.com/novnc/websockify.git /opt/websockify
+
+WORKDIR /workspace
+COPY docker/entrypoint-vnc.sh /usr/local/bin/entrypoint-vnc.sh
+RUN chmod +x /usr/local/bin/entrypoint-vnc.sh
+
+EXPOSE 6080
+ENTRYPOINT ["/usr/local/bin/entrypoint-vnc.sh"]
