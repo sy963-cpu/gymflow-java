@@ -15,11 +15,11 @@ Mittelfristige Routinen sind regelmäßige, moderately-komplexe Aufgaben, die ei
 
 | Metrik | Wert |
 |--------|------|
-| **Gesamtanzahl** | 0 |
-| **Aktiv** | 0 |
+| **Gesamtanzahl** | 2 |
+| **Aktiv** | 2 |
 | **Deprecated** | 0 |
 | **In Arbeit** | 0 |
-| **Durchschn. Komplexität** | — |
+| **Durchschn. Komplexität** | mittel |
 
 ---
 
@@ -41,6 +41,7 @@ Diese Routinen werden in Phase 3 (KW 17-18) implementiert:
 - [ ] `R-MAINT-LOG-CLEANUP` – Log-Dateien aufräumen (Complexity: einfach)
 - [ ] `R-MAINT-CACHE-CLEAR` – Cache leeren (Complexity: einfach)
 - [ ] `R-MAINT-DB-OPTIMIZE` – Datenbank optimieren (Complexity: mittel)
+- [x] `R-MAINT-GUI-BRIDGE` – GUI-Bridge warten (Complexity: mittel)
 
 ### Security & Audit
 - [ ] `R-AUDIT-ACCESS-LOG` – Zugriffsprotokolle prüfen (Complexity: mittel)
@@ -50,7 +51,62 @@ Diese Routinen werden in Phase 3 (KW 17-18) implementiert:
 
 ## Implementierte Routinen
 
-_(Keine implementierten Routinen in dieser Kategorie yet)_
+### Maintenance & Administration
+
+#### `R-MAINT-GUI-BRIDGE` – GUI-Bridge warten (Complexity: mittel)
+**Status**: ✅ IMPLEMENTIERT  
+**Zeitrahmen**: 15-30 Minuten  
+**Frequenz**: Monatlich  
+**Ziel**: Sicherstellen, dass die GUI-Bridge (noVNC + Xvfb) zuverlässig funktioniert
+
+**Voraussetzungen:**
+- Docker-Umgebung verfügbar
+- Java 21 installiert
+- Grundlegende Kenntnisse in Container-Management
+
+**Schritte:**
+1. **Container-Status prüfen**:
+   ```bash
+   docker compose ps
+   docker compose logs --tail=20 vnc
+   ```
+
+2. **GUI-Bridge testen**:
+   ```bash
+   bash scripts/test-gui.sh
+   ```
+
+3. **Container neu bauen** (falls nötig):
+   ```bash
+   docker compose build --no-cache vnc
+   docker compose up -d vnc
+   ```
+
+4. **Java-Kompilierung prüfen**:
+   ```bash
+   javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
+   ```
+
+5. **Browser-Test durchführen**:
+   - `http://localhost:6080/vnc.html` öffnen
+   - GUI-Interaktionen testen
+
+**Erfolgskriterien:**
+- ✅ Container startet ohne Fehler
+- ✅ noVNC-Webinterface erreichbar
+- ✅ Java-Anwendung läuft im Container
+- ✅ GUI-Interaktionen funktionieren
+
+**Fehlerbehebung:**
+- **Container-Fehler**: `docker compose down && docker compose up -d`
+- **Java-Fehler**: JDK-Version prüfen, Code neu kompilieren
+- **VNC-Fehler**: Container-Logs analysieren, Port-Konflikte prüfen
+- **Display-Fehler**: Xvfb-Konfiguration überprüfen
+
+**Automatisierung:**
+Diese Routine wird durch `scripts/health-check.sh` und `scripts/test-gui.sh` unterstützt.
+
+---
 
 ```
 Routinen werden hier gelistet, wenn implementiert.
@@ -76,5 +132,5 @@ Routinen werden hier gelistet, wenn implementiert.
 ---
 
 **Kategorie**: MITTELFRISTIG  
-**Zuletzt aktualisiert**: 2026-03-23  
+**Zuletzt aktualisiert**: 2026-04-27  
 **Status**: 🟡 ACTIVE (Setup Phase)

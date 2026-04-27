@@ -141,7 +141,19 @@ echo ""
 echo ""
 
 # ============================================================
-# 7. Test-Services starten
+# 7. GUI-Bridge Test durchführen
+# ============================================================
+echo -e "${YELLOW}GUI-Bridge Test:${NC}"
+if bash scripts/test-gui.sh | grep -q "Erreichbar"; then
+    log_success "GUI-Bridge funktioniert"
+else
+    log_warn "GUI-Bridge Test fehlgeschlagen (nicht kritisch)"
+fi
+
+echo ""
+
+# ============================================================
+# 8. Test-Services starten
 # ============================================================
 echo -e "${YELLOW}Nächste Schritte:${NC}"
 echo "  1. Dokumentation lesen:"
@@ -150,12 +162,16 @@ echo ""
 echo "  2. Tests durchführen:"
 echo "     → bash scripts/run-tests.sh"
 echo ""
-echo "  3. Health-Check:"
+echo "  3. GUI testen:"
+echo "     → bash scripts/test-gui.sh"
+echo "     → Browser: http://localhost:6080/vnc.html"
+echo ""
+echo "  4. Health-Check:"
 echo "     → bash scripts/health-check.sh"
 echo ""
 
 # ============================================================
-# 8. Docker Logs
+# 9. Docker Logs
 # ============================================================
 log_info "Zeige Live-Logs (Drücke Ctrl+C um zu beenden)..."
 echo ""

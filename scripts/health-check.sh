@@ -70,6 +70,26 @@ else
 fi
 
 # ============================================================
+# GUI Bridge (noVNC) Health Check
+# ============================================================
+echo -n "GUI Bridge (noVNC)     : "
+if curl -s -I http://localhost:6080/vnc.html | grep -q "200 OK"; then
+    log_success "Online"
+else
+    log_error "Offline"
+fi
+
+# ============================================================
+# Java Application Health Check
+# ============================================================
+echo -n "Java GUI Application   : "
+if docker exec gymflow-vnc ps aux 2>/dev/null | grep -q "java.*start.Main"; then
+    log_success "Läuft"
+else
+    log_warn "Nicht gefunden"
+fi
+
+# ============================================================
 # Docker Container Status
 # ============================================================
 echo ""
