@@ -104,7 +104,7 @@ done
 log_info "Kompiliere Java-Projekt..."
 
 mkdir -p bin
-javac -encoding ISO-8859-1 -d bin src/start/*.java 2>&1
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java 2>&1
 
 if [ $? -eq 0 ]; then
     log_success "Java-Projekt kompiliert"

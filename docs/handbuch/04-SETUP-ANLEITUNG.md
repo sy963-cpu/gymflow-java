@@ -148,7 +148,7 @@ Oder besuche: **http://localhost:5000**
 
 ```bash
 # Kompilierung
-javac -encoding ISO-8859-1 -d bin src/start/*.java
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 
 # Ausführung
 java -cp bin start.Main &
@@ -359,13 +359,13 @@ GET http://localhost:5000/api/users
 
 ### 4️⃣ Java Desktop Application
 
-**Sprache**: Java 11+  
+**Sprache**: Java 21  
 **UI-Framework**: Swing  
 **Datenbank**: Lokal (JSON/POJO)
 
 **Kompilierung:**
 ```bash
-javac -encoding ISO-8859-1 -d bin src/start/*.java
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 ```
 
 **Ausführung:**
@@ -430,7 +430,7 @@ docker-compose up -d
 **Lösung**:
 ```bash
 # Richtige Encoding-Flagge verwenden
-javac -encoding ISO-8859-1 -d bin src/start/*.java
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 
 # NICHT UTF-8 (falsch):
 # javac -encoding UTF-8 -d bin src/start/*.java

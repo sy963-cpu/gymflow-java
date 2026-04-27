@@ -191,7 +191,7 @@ curl http://localhost:5000/api/users | jq .
 
 **Java:**
 ```bash
-javac -encoding ISO-8859-1 -d bin src/start/*.java
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 java -cp bin start.Main
 ```
 
@@ -267,7 +267,7 @@ docker-compose up -d
 ### Java Kompilierungsfehler?
 ```bash
 # Richtige Encoding-Flagge verwenden
-javac -encoding ISO-8859-1 -d bin src/start/*.java
+javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java
 ```
 
 → **Mehr Lösungen**: [SETUP-ANLEITUNG.md](docs/handbuch/04-SETUP-ANLEITUNG.md#häufige-fehler--lösungen)

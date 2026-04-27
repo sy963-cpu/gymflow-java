@@ -204,7 +204,7 @@ docker exec -it gymflow-python-api pip install <package>
 
 # Java neu kompilieren und testen
 docker exec -it gymflow-python-api bash -c \
-"javac -d /tmp/bin src/start/*.java && java -cp /tmp/bin start.Main"
+"javac --release 21 -d /tmp/bin src/start/*.java && java -cp /tmp/bin start.Main"
 ```
 
 ---

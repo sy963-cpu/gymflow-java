@@ -79,7 +79,7 @@ src/start/
 ### Kompilieren:
 ```bash
 cd src
-javac -encoding ISO-8859-1 start/*.java
+javac --release 21 -encoding ISO-8859-1 start/*.java
 ```
 
 ### Ausführen:

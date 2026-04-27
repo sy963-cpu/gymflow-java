@@ -21,7 +21,7 @@ echo ""
 echo -e "${YELLOW}1. Java Desktop App - Kompilierung${NC}"
 echo "   Verzeichnis: src/start/"
 
-if javac -encoding ISO-8859-1 -d bin src/start/*.java 2>&1; then
+if javac --release 21 -encoding ISO-8859-1 -d bin src/start/*.java 2>&1; then
     echo -e "${GREEN}   ✓ Kompilierung erfolgreich${NC}"
 else
     echo -e "${RED}   ✗ Kompilierung fehlgeschlagen${NC}"
